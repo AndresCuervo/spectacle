@@ -1,3 +1,5 @@
+/* p5, tracking */
+
 tracking.ColorTracker.registerColor('blue', function(r, g, b) {
     if (r < 50 && g > 50 && b < 200) {
         return true;
@@ -16,14 +18,56 @@ let gui = new dat.GUI();
 
 let video = document.querySelector('#myVideo')
 
-tracking.track('#myVideo', tracker, { camera: true })
+var front = false;
+document.getElementById('flip-button').onclick = function() {
+  front = !front;
+  alert(front)
+  window.stream.applyConstraints({
+    video: {
+      facingMode: (front? "user" : "environment")
+    }
+  })
+};
+
+// In order to get back camera we have to override the default tracker video stream
+let constraints = {
+  audio: false,
+  video: { facingMode: (front? "user" : "environment") } };
+
+tracking.track('#myVideo', tracker, { camera : constraints.video })
+
+// var constraints = window.constraints = {
+//   audio: false,
+//   video: true // { facingMode: { exact: "environment" } }
+// };
+
+function handleSuccess(stream) {
+  let videoTracks = stream.getVideoTracks();
+  console.log(videoTracks)
+  console.log('Got stream with constraints:', constraints);
+  alert('Using video device: ' + videoTracks[0].label + videoTracks[0].readyState);
+  stream.oninactive = function() {
+    console.log('Stream inactive');
+  };
+  window.stream = stream; // make variable available to browser console
+  //alert('Using video device: ' + videoTracks[0].label)
+  video.srcObject = stream;
+}
+
+navigator.mediaDevices.getUserMedia(constraints).
+    then(handleSuccess);
 
 let state, pg, canvas, cString
 
 // Resize the canvas to the video size when stream starts
 video.addEventListener('loadeddata', e => {
-    console.log(video.getBoundingClientRect())
-    canvasToVideoSize()
+  //alert(video.getBoundingClientRect().height)
+  //alert(video.srcObject.getVideoTracks().length)
+  window.stream = video.srcObject.getVideoTracks()[0]
+  //window.stream.applyConstraints({video : {facingMode: "environment"}})
+  //video.srcObject = stream
+  //console.log(video.getBoundingClientRect())
+  canvasToVideoSize()
 })
 
 let textDimensions = {
@@ -75,7 +119,6 @@ function setup() {
 
 function draw() {
     clear()
-
     // fill(255);
     // noStroke();
     // ellipse(mouseX, mouseY, 60, 60);
