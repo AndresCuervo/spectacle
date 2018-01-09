@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>tracking.js - first tracking</title>
-      <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
@@ -14,21 +14,21 @@
             <video class="drawing" id="myVideo" preload autoplay loop muted playsinline></video>
         </div>
 
-      <button id="flip-button" style="position: absolute; bottom: 0; font-size: x-large;">
-        Flip button
-      </button>
-      
-<div id= "container"></div>
-  <script>
-  var sketch = function(p) {
-      p.setup = function(){
-      p.createCanvas(100, 100);
-      p.background(0);
-    }
-  };
-  new p5(sketch, 'container');
-  </script>
-      <script src="vendor/tracking.min.js"></script>
-      <script src="index.js"></script>
+        <button id="flip-button">
+            Flip button
+        </button>
+
+        <div id= "container"></div>
+        <script>
+            var sketch = function(p) {
+                p.setup = function(){
+                    p.createCanvas(100, 100);
+                    p.background(0);
+                }
+            };
+new p5(sketch, 'container');
+        </script>
+        <script src="vendor/tracking.min.js"></script>
+        <script src="index.js"></script>
     </body>
 </html>

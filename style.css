@@ -22,6 +22,14 @@ canvas {
     /* z-index: 1; */
 }
 
+#flip-button {
+  position: absolute;
+  bottom: 0;
+  font-size: 40pt;
+  border: 1px solid black;
+  background-color: #2EAFAC;
+}
+
 video {
 /*   position: absolute;
   top: 0;

@@ -18,21 +18,22 @@ let gui = new dat.GUI();
 
 let video = document.querySelector('#myVideo')
 
-var front = false;
+let flip = false;
+// Doesn't actually flip the video stream, promise doesn't resolve?
 document.getElementById('flip-button').onclick = function() {
-  front = !front;
-  alert(front)
-  window.stream.applyConstraints({
-    video: {
-      facingMode: (front? "user" : "environment")
-    }
-  })
+    flip = !flip;
+    // alert(flip)
+    window.stream.applyConstraints({
+        video: {
+            facingMode: (flip? "user" : "environment")
+        }
+    })
 };
 
 // In order to get back camera we have to override the default tracker video stream
 let constraints = {
-  audio: false,
-  video: { facingMode: (front? "user" : "environment") } };
+    audio: false,
+    video: { facingMode: (flip? "user" : "environment") } };
 
 tracking.track('#myVideo', tracker, { camera : constraints.video })
 
@@ -42,16 +43,16 @@ tracking.track('#myVideo', tracker, { camera : constraints.video })
 // };
 
 function handleSuccess(stream) {
-  let videoTracks = stream.getVideoTracks();
-  console.log(videoTracks)
-  console.log('Got stream with constraints:', constraints);
-  alert('Using video device: ' + videoTracks[0].label + videoTracks[0].readyState);
-  stream.oninactive = function() {
-    console.log('Stream inactive');
-  };
-  window.stream = stream; // make variable available to browser console
-  //alert('Using video device: ' + videoTracks[0].label)
-  video.srcObject = stream;
+    let videoTracks = stream.getVideoTracks();
+    console.log(videoTracks)
+    console.log('Got stream with constraints:', constraints);
+    // alert('Using video device: ' + videoTracks[0].label + videoTracks[0].readyState);
+    stream.oninactive = function() {
+        console.log('Stream inactive');
+    };
+    window.stream = stream; // make variable available to browser console
+    // alert('Using video device: ' + videoTracks[0].label)
+    video.srcObject = stream;
 }
 
 navigator.mediaDevices.getUserMedia(constraints).
@@ -61,13 +62,13 @@ let state, pg, canvas, cString
 
 // Resize the canvas to the video size when stream starts
 video.addEventListener('loadeddata', e => {
-  //alert(video.getBoundingClientRect().height)
-  //alert(video.srcObject.getVideoTracks().length)
-  window.stream = video.srcObject.getVideoTracks()[0]
-  //window.stream.applyConstraints({video : {facingMode: "environment"}})
-  //video.srcObject = stream
-  //console.log(video.getBoundingClientRect())
-  canvasToVideoSize()
+    //alert(video.getBoundingClientRect().height)
+    //alert(video.srcObject.getVideoTracks().length)
+    window.stream = video.srcObject.getVideoTracks()[0]
+    //window.stream.applyConstraints({video : {facingMode: "environment"}})
+    //video.srcObject = stream
+    //console.log(video.getBoundingClientRect())
+    canvasToVideoSize()
 })
 
 let textDimensions = {
@@ -119,6 +120,9 @@ function setup() {
 
 function draw() {
     clear()
+    if (flip) {
+        return
+    }
     // fill(255);
     // noStroke();
     // ellipse(mouseX, mouseY, 60, 60);
