@@ -1,4 +1,13 @@
-/* p5, tracking */
+/* globals p5, tracking */
+
+let sketch = function(p) {
+    p.setup = function(){
+        p.createCanvas(100, 100);
+        p.background(0);
+    }
+};
+
+new p5(sketch, 'sketch-holder');
 
 tracking.ColorTracker.registerColor('blue', function(r, g, b) {
     if (r < 50 && g > 50 && b < 200) {
