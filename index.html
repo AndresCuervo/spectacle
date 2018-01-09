@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>tracking.js - first tracking</title>
+        <script src="vendor/tracking.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="sketch-holder">
+            <video class="drawing" id="myVideo" preload autoplay loop muted></video>
+        </div>
+
+<div id='container'></div>
+  <script>
+  var sketch = function(p) {
+    p.setup = function(){
+      p.createCanvas(100, 100);
+      p.background(0);
+    }
+  };
+  new p5(sketch, 'container');
+  </script>
+        <script src="index.js"></script>
+    </body>
+</html>
